@@ -5,11 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\StudentController;
 
-Route::get('/students', [StudentController::class, 'index']);
+Route::get('/students', [StudentController::class, 'getStudents']);
 
-Route::get('/students/{id}', function () {
-    return 'Geting Student';
-});
+Route::get('/students/{id}', [StudentController::class, 'getStudent']);
 
 Route::post('/students', [StudentController::class, 'createStudent']);
 
