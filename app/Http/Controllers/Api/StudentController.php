@@ -10,13 +10,33 @@ use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
 {
-    public function index() {
+    public function getStudents() {
         $students = Student::all();
         if ($students->isEmpty()) {
-            $data = ['message' => 'No registered students'];
+            $data = [
+                'message' => 'No registered students',
+                'status' => '404'
+            ];
             return response()->json($data, 404);
         }
         return response()->json($students, 200);
+    }
+
+    public function getStudent($id) {
+        $student = Student::find($id);
+        if ($student) {
+            $data = [
+                'message' => 'Getting student.',
+                'student' => $student,
+                'status' => 200
+            ];
+            return response()->json($data, 200);
+        }
+        $data = [
+            'message' => 'Student no found.',
+            'status' => 404
+        ];
+        return response()->json($data, 404);
     }
 
     public function createStudent(Request $request) {
@@ -32,7 +52,7 @@ class StudentController extends Controller
         }
 
         $student = Student::create($request->all());
-        
+
         if (!$student) {
             $data = [
                 'message' => 'Error creating the student.',
