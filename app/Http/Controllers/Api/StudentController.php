@@ -69,6 +69,23 @@ class StudentController extends Controller
         return response()->json($data, 201);
     }
 
+    public function deleteStudent($id) {
+        $student = Student::find($id);
+        if ($student) {
+            $student->delete();
+            $data = [
+                'message' => 'Deleting student',
+                'status' => 200
+            ];
+            return response()->json($data, 200);
+        }
+        $data = [
+            'message' => 'Student no found.',
+            'status' => 404
+        ];
+        return response()->json($data, 404);
+    }
+
     private function validateStudent(Request $request) {
         return Validator::make($request->all(), [
             'name' => 'required',
