@@ -11,8 +11,8 @@ Route::get('/students/{id}', [StudentController::class, 'getStudent']);
 
 Route::post('/students', [StudentController::class, 'createStudent']);
 
-Route::put('/students/{id}', function () {
-    return 'Updating Student';
-});
+Route::put('/students/{id}', [StudentController::class, 'updateStudent']);
+
+Route::patch('/students/{id}', [StudentController::class, 'updatePartial']);
 
 Route::delete('/students/{id}', [StudentController::class, 'deleteStudent']);
