@@ -46,17 +46,17 @@ class StudentController extends Controller
             ], 422);
         }
         $student = Student::create($request->all());
-        if (!$student) {
+        if ($student) {
             return response()->json([
-                    'message' => 'Error creating the student.',
-                    'status' => 500
-            ], 500);
-        }
-        return response()->json([
                 'message' => 'Student created successfully.',
                 'student' => $student,
                 'status' => 201
-        ], 201);
+            ], 201);
+        }
+        return response()->json([
+            'message' => 'Error creating the student.',
+            'status' => 500
+        ], 500);
     }
 
     public function deleteStudent($id) {
@@ -126,19 +126,25 @@ class StudentController extends Controller
 
     private function validateStudent(Request $request) {
         return Validator::make($request->all(), [
+            'dni' => 'required',
             'name' => 'required',
             'email' => 'required|email',
             'phone' => 'required',
-            'language' => 'required'
+            'university' => 'required',
+            'career' => 'required',
+            'situation' => 'required'
         ]);
     }
     
     private function validatePartialStudent(Request $request) {
         return Validator::make($request->all(), [
+            'dni' => 'sometimes|required',
             'name' => 'sometimes|required',
             'email' => 'sometimes|required|email',
             'phone' => 'sometimes|required',
-            'language' => 'sometimes|required'
+            'university' => 'sometimes|required',
+            'career' => 'sometimes|required',
+            'situation' => 'sometimes|required'
         ]);
     }
 }
